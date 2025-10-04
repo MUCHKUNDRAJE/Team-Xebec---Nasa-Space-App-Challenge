@@ -15,14 +15,8 @@ export default function App() {
       timeline: false,
       animation: false,
     });
-    
-    // ================== NEW FIX ==================
-    // This disables the glowing atmosphere effect around the Earth,
-    // which often causes flickering against the star background.
-    viewer.scene.skyAtmosphere.show = false;
-    // =============================================
 
-    // Fix z-fighting for polylines on the globe surface
+    viewer.scene.skyAtmosphere.show = false;
     viewer.scene.globe.depthTestAgainstTerrain = false;
 
     const latitude = 28.6139;
@@ -39,11 +33,8 @@ export default function App() {
       duration: 3,
     });
 
-    // Create 3D magnetic field lines from North to South pole
     const createMagneticFieldLine = (longitude, distanceFromCenter) => {
       const positions = [];
-      const earthRadius = 6371000; // Earth's radius in meters
-
       for (let lat = 90; lat >= -90; lat -= 1) {
         const latRad = Cesium.Math.toRadians(lat);
         const latNormalized = Math.abs(lat) / 90;
@@ -57,18 +48,16 @@ export default function App() {
       return positions;
     };
 
-    // Define magnetic field lines
     const fieldLines = [
-        { distance: 2000000, color: Cesium.Color.CYAN.withAlpha(0.7), width: 3.5 },
-        { distance: 3000000, color: Cesium.Color.DEEPSKYBLUE.withAlpha(0.6), width: 3 },
-        { distance: 4000000, color: Cesium.Color.DODGERBLUE.withAlpha(0.5), width: 3 },
-        { distance: 5000000, color: Cesium.Color.BLUE.withAlpha(0.5), width: 2.5 },
-        { distance: 6000000, color: Cesium.Color.ROYALBLUE.withAlpha(0.4), width: 2.5 },
-        { distance: 7000000, color: Cesium.Color.MEDIUMBLUE.withAlpha(0.4), width: 2 },
-        { distance: 8000000, color: Cesium.Color.SLATEBLUE.withAlpha(0.3), width: 2 },
+      { distance: 2000000, color: Cesium.Color.CYAN.withAlpha(0.7), width: 3.5 },
+      { distance: 3000000, color: Cesium.Color.DEEPSKYBLUE.withAlpha(0.6), width: 3 },
+      { distance: 4000000, color: Cesium.Color.DODGERBLUE.withAlpha(0.5), width: 3 },
+      { distance: 5000000, color: Cesium.Color.BLUE.withAlpha(0.5), width: 2.5 },
+      { distance: 6000000, color: Cesium.Color.ROYALBLUE.withAlpha(0.4), width: 2.5 },
+      { distance: 7000000, color: Cesium.Color.MEDIUMBLUE.withAlpha(0.4), width: 2 },
+      { distance: 8000000, color: Cesium.Color.SLATEBLUE.withAlpha(0.3), width: 2 },
     ];
 
-    // Create multiple field lines around the globe
     const longitudeStep = 20;
     for (let lon = 0; lon < 360; lon += longitudeStep) {
       fieldLines.forEach((line) => {
@@ -104,7 +93,7 @@ export default function App() {
         height: 20000000,
       },
     ];
-    
+
     belts.forEach((belt) => {
       if (belt.name === "Outer Van Allen Belt") {
         for (let lon = 0; lon < 360; lon += 15) {
@@ -125,41 +114,21 @@ export default function App() {
             },
           });
         }
-      } 
-      else {
-        for (let lat = -belt.latitudeRange; lat <= belt.latitudeRange; lat += 5) {
-          const positions = [];
-          for (let lon = 0; lon <= 360; lon += 5) {
-            const latFactor = 1 - Math.pow(Math.abs(lat) / belt.latitudeRange, 2);
-            const height = belt.height * (0.7 + 0.3 * latFactor);
-            positions.push(Cesium.Cartesian3.fromDegrees(lon, lat, height));
-          }
-          viewer.entities.add({
-            name: belt.name,
-            polyline: {
-              positions: positions,
-              width: 3,
-              material: new Cesium.PolylineGlowMaterialProperty({
-                glowPower: 0.3,
-                color: belt.color,
-              }),
-            },
-          });
-        }
       }
+      // The 'else' block that created the horizontal lines has been removed.
     });
 
     // Add pole markers for reference
     viewer.entities.add({
       name: "North Pole",
       position: Cesium.Cartesian3.fromDegrees(0, 90, 0),
-      point: { pixelSize: 10, color: Cesium.Color.WHITE, outlineColor: Cesium.Color.CYAN, outlineWidth: 2, },
+      point: { pixelSize: 10, color: Cesium.Color.WHITE, outlineColor: Cesium.Color.CYAN, outlineWidth: 2 },
     });
 
     viewer.entities.add({
       name: "South Pole",
       position: Cesium.Cartesian3.fromDegrees(0, -90, 0),
-      point: { pixelSize: 10, color: Cesium.Color.WHITE, outlineColor: Cesium.Color.CYAN, outlineWidth: 2, },
+      point: { pixelSize: 10, color: Cesium.Color.WHITE, outlineColor: Cesium.Color.CYAN, outlineWidth: 2 },
     });
 
   }, []);
