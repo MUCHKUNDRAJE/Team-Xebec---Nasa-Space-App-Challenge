@@ -1,2 +1,7 @@
 @import "tailwindcss";
 
+.alan {
+  font-family: "Alan Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
