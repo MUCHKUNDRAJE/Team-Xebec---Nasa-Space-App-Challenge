@@ -47,6 +47,34 @@ export default function Control() {
     console.log("databolt state:", databolt);
   }, [databolt]);
 
+
+useEffect(() => {
+  if (databolt.length === 0) return;
+
+  const email = "kritishbokde91@gmail.com"; // 🔁 replace with user's email or dynamic value
+
+  databolt.forEach((item, index) => {
+    const speed = item.cme_parameters?.speed ?? 0;
+    const days = item.days_from_now ?? 0;
+
+    if (speed > 650 && days > 2) {
+      console.log(`🚨 Condition met at index ${index}: Speed ${speed}, Days ${days}`);
+
+      axios.post("http://10.178.41.83:6969/send-alert", {
+        email,
+        cme_data: item
+      })
+      .then((res) => {
+        console.log("Alert sent successfully:", res.data);
+      })
+      .catch((err) => {
+        console.error("Error sending alert:", err);
+      });
+    }
+  });
+}, [databolt]);
+
+
   // Cesium Viewer setup (unchanged)
   useEffect(() => {
     const viewer = new Cesium.Viewer("cesiumContainer", {
