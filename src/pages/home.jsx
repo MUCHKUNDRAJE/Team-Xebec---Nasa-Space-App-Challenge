@@ -282,6 +282,22 @@ export default function Control() {
                   className="inter p-3 rounded-xl bg-zinc-800/80 border border-zinc-700/50 hover:border-cyan-400/60 hover:shadow-cyan-500/20 transition-all duration-300"
                   onClick={() => handlePredictionClick(val, ind)}
                 >
+
+                     <span
+  className="px-3 rounded-2xl  text-white "
+    style={{
+      backgroundColor:
+        val.impact_assessment?.impact_level === "Low"
+          ? "green"
+          : val.impact_assessment?.impact_level === "Medium"
+          ? "orange"
+          : val.impact_assessment?.impact_level === "High"
+          ? "red"
+          : "black",
+    }}
+  >
+    {val.impact_assessment?.impact_level ?? "N/A"}
+  </span>
                   <div className="flex items-center justify-between cursor-pointer">
                     <span className="text-sm text-zinc-300">{localTime}</span>
                     <span className="text-cyan-400 text-xs font-semibold uppercase tracking-wide">
