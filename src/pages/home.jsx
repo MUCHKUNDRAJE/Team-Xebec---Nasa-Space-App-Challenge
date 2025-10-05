@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as Cesium from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 import axios from "axios";
+import Google_Logo from "../components/Google-Logo";
 
 export default function Control() {
   const [showMagneticField, setShowMagneticField] = useState(true);
@@ -196,9 +197,11 @@ export default function Control() {
 
   return (
     <div className="h-full w-screen overflow-hidden relative">
+    
       <div id="cesiumContainer" style={{ width: "100%", height: "100vh" }}></div>
 
       {/* Dashboard */}
+     
       <div className="absolute top-6 left-6 bg-zinc-900 bg-opacity-90 text-white rounded-xl p-4 shadow-2xl border border-zinc-700 w-80">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-white">Space Weather</h2>
@@ -285,7 +288,7 @@ export default function Control() {
                       Forecast
                     </span>
                   </div>
-                  {isExpanded && (
+                  {/* {isExpanded && (
                     <div className="mt-2 text-sm text-zinc-300">
                       <h3 className="font-semibold text-cyan-400 mb-1">CME Parameters</h3>
                       <p>Latitude: {val.cme_parameters?.latitude ?? "N/A"}°</p>
@@ -305,9 +308,10 @@ export default function Control() {
                         </span>
                       </p>
                       <p>Estimated Arrival: {val.impact_assessment?.estimated_arrival ?? "N/A"}</p>
+                      <p>Estimated Arrival: {val.impact_assessment?.impact_level ?? "N/A"}</p>
                       <p>Geomagnetic Storm: {val.impact_assessment?.geomagnetic_storm_potential ?? "N/A"}</p>
                     </div>
-                  )}
+                  )} */}
                 </div>
               );
             })
@@ -355,6 +359,24 @@ export default function Control() {
                 </span>
               </p>
               <p>Estimated Arrival: {selectedPrediction.impact_assessment?.estimated_arrival ?? "N/A"}</p>
+           <p>
+  Estimated Arrival:{" "}
+  <span
+  className="px-3 rounded-2xl  text-white "
+    style={{
+      backgroundColor:
+        selectedPrediction.impact_assessment?.impact_level === "Low"
+          ? "green"
+          : selectedPrediction.impact_assessment?.impact_level === "Medium"
+          ? "orange"
+          : selectedPrediction.impact_assessment?.impact_level === "High"
+          ? "red"
+          : "black",
+    }}
+  >
+    {selectedPrediction.impact_assessment?.impact_level ?? "N/A"}
+  </span>
+</p>
               <p>Geomagnetic Storm: {selectedPrediction.impact_assessment?.geomagnetic_storm_potential ?? "N/A"}</p>
             </div>
           </div>
