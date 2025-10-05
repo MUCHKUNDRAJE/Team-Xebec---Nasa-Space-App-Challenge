@@ -31,7 +31,7 @@ The platform not only predicts solar events but also sends alerts when potential
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/MUCHKUNDRAJE/Team-Xebec---Nasa-Space-App-Challenge
    ```
 2. Install dependencies:
 
@@ -41,7 +41,7 @@ The platform not only predicts solar events but also sends alerts when potential
 3. Start the development server:
 
    ```bash
-   npm start
+   npm run dev
    ```
 4. Open the application in a browser and explore real-time space weather predictions.
 
