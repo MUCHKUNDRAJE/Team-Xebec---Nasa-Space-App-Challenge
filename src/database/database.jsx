@@ -33,7 +33,7 @@
 
 
 
-export const data = [
+export  const data = [
 {
     "prediction_id": 1,
     "time21_5": "2025-10-05T13:20Z",
